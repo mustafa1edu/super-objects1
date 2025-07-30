@@ -1,0 +1,271 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Interactive Image Gallery</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap');
+        
+        /* Background color for entire page */
+        html {
+            background-color: #ec1f26;
+            padding: 20px;
+            min-height: 100vh;
+        }
+        
+        /* Main container with border effects */
+        body {
+            font-family: 'Poppins', sans-serif;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0;
+            background-color: #ec1f26;
+            color: white;
+            position: relative;
+            box-shadow: 0 0 0 1px rgba(255,255,255,0.3),
+                        0 0 0 10px #ec1f26,
+                        0 0 0 11px rgba(255,255,255,0.2),
+                        0 0 30px rgba(0,0,0,0.2);
+            border-radius: 5px;
+            min-height: calc(100vh - 40px);
+        }
+        
+        /* Border shine animation */
+        body::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 3px;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.6), transparent);
+            animation: borderShine 3s linear infinite;
+        }
+        
+        @keyframes borderShine {
+            0% { transform: translateX(-100%); }
+            100% { transform: translateX(100%); }
+        }
+        
+        /* Header with logo */
+        .header-container {
+            text-align: center;
+            padding-top: 50px; /* Bring logo down */
+            margin-bottom: 30px;
+            animation: fadeIn 1s ease-out;
+        }
+        
+        .header-logo {
+            width: 300px;
+            height: auto;
+            margin-bottom: 20px;
+            transition: transform 0.3s ease;
+        }
+        
+        h1 {
+            margin: 5px 0;
+            font-size: 2.2rem;
+            text-shadow: 0 2px 4px rgba(0,0,0,0.3);
+            animation: slideDown 0.8s ease-out;
+        }
+        
+        .subtitle {
+            opacity: 0.9;
+            font-weight: 300;
+            margin-top: 5px;
+            animation: fadeIn 1.2s ease-out;
+        }
+        
+        /* Gallery grid */
+        .gallery {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 30px;
+            margin: 20px;
+            padding-bottom: 40px;
+            animation: fadeIn 1.4s ease-out;
+        }
+        
+        /* Gallery items */
+        .gallery-item {
+            width: 280px;
+            background-color: rgba(255,255,255,0.92);
+            padding: 18px;
+            border-radius: 16px;
+            box-shadow: 0 6px 20px rgba(0,0,0,0.15);
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            position: relative;
+            overflow: hidden;
+            transform: translateY(0);
+        }
+        
+        .gallery-item:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 12px 30px rgba(0,0,0,0.2);
+        }
+        
+        .gallery-item img {
+            width: 100%;
+            height: auto;
+            border-radius: 10px;
+            transition: all 0.5s ease;
+            filter: brightness(0.97);
+            border: 1px solid rgba(0,0,0,0.05);
+        }
+        
+        .gallery-item:hover img {
+            filter: brightness(1.03);
+            transform: scale(1.03);
+        }
+        
+        .gallery-item p {
+            margin-top: 15px;
+            color: #555;
+            font-weight: 500;
+            font-size: 1.1rem;
+        }
+        
+        /* Active state */
+        .gallery-item.active {
+            transform: scale(1.08) translateY(-5px);
+            box-shadow: 0 0 0 4px white, 0 15px 40px rgba(0,0,0,0.25);
+            z-index: 10;
+            background-color: white;
+        }
+        
+        .gallery-item.active img {
+            transform: scale(0.98);
+            filter: brightness(1);
+        }
+        
+        /* Blur effect for inactive items */
+        .gallery.blur-background > :not(.active) {
+            filter: blur(4px);
+            opacity: 0.5;
+            transform: scale(0.92);
+        }
+        
+        /* Text overlay */
+        .text-overlay {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: rgba(236, 31, 38, 0.95);
+            color: white;
+            padding: 20px;
+            transform: translateY(100%);
+            transition: transform 0.5s cubic-bezier(0.165, 0.84, 0.44, 1);
+            border-radius: 0 0 14px 14px;
+        }
+        
+        .gallery-item.active .text-overlay {
+            transform: translateY(0);
+        }
+        
+        .text-overlay h3 {
+            margin: 0 0 8px 0;
+            font-size: 1.3rem;
+        }
+        
+        .text-overlay p {
+            margin: 0;
+            color: rgba(255,255,255,0.9);
+            font-weight: 300;
+        }
+        
+        /* Animations */
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+        
+        @keyframes slideDown {
+            from { 
+                opacity: 0;
+                transform: translateY(-30px);
+            }
+            to { 
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header with centered logo -->
+    <div class="header-container">
+        <img src="white logo without bg.png" 
+             alt="Logo" class="header-logo">
+        <h1>Interactive Image Gallery</h1>
+        <p class="subtitle">Click on any image to highlight it</p>
+    </div>
+    
+    <!-- Image Gallery -->
+    <div class="gallery">
+        <!-- Image 1 -->
+        <div class="gallery-item" onclick="toggleActive(this)">
+            <img src="Untitled design (10).png" 
+                 alt="Image 1">
+            <p>Image 1</p>
+            <div class="text-overlay">
+                <h3>Custom Title 1</h3>
+                <p>Description for Image 1</p>
+            </div>
+        </div>
+        
+        <!-- Image 2 -->
+        <div class="gallery-item" onclick="toggleActive(this)">
+            <img src="Untitled design (8).png" 
+                 alt="Image 2">
+            <p>Image 2</p>
+            <div class="text-overlay">
+                <h3>Custom Title 2</h3>
+                <p>Description for Image 2</p>
+            </div>
+        </div>
+
+        <!-- Image 3 -->
+        <div class="gallery-item" onclick="toggleActive(this)">
+            <img src="Super Cleaner Engine Cleaner 25KG.png" 
+                 alt="Image 3">
+            <p>Image 3</p>
+            <div class="text-overlay">
+                <h3>Custom Title 3</h3>
+                <p>Description for Image 3</p>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function toggleActive(element) {
+            // Toggle active state
+            element.classList.toggle('active');
+            
+            // Apply blur to inactive items
+            const gallery = document.querySelector('.gallery');
+            gallery.classList.toggle('blur-background', element.classList.contains('active'));
+            
+            // Ensure only one active item
+            document.querySelectorAll('.gallery-item').forEach(item => {
+                if (item !== element && item.classList.contains('active')) {
+                    item.classList.remove('active');
+                }
+            });
+        }
+
+        // Page load animation
+        document.addEventListener('DOMContentLoaded', () => {
+            document.body.style.opacity = '0';
+            setTimeout(() => {
+                document.body.style.transition = 'opacity 0.8s ease';
+                document.body.style.opacity = '1';
+            }, 100);
+        });
+    </script>
+</body>
+</html>
