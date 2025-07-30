@@ -48,6 +48,27 @@
             100% { transform: translateX(100%); }
         }
         
+        /* Back button */
+        .back-button {
+            position: absolute;
+            top: 20px;
+            left: 20px;
+            padding: 8px 16px;
+            background-color: rgba(255,255,255,0.9);
+            color: #ec1f26;
+            text-decoration: none;
+            border-radius: 20px;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            z-index: 100;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+        
+        .back-button:hover {
+            background-color: white;
+            transform: translateX(-3px);
+        }
+        
         /* Header with logo */
         .header-container {
             text-align: center;
@@ -57,7 +78,7 @@
         }
         
         .header-logo {
-            width: 300px;
+            width: 200px; /* Reduced from 300px */
             height: auto;
             margin-bottom: 20px;
             transition: transform 0.3s ease;
@@ -197,6 +218,9 @@
     </style>
 </head>
 <body>
+    <!-- Back button -->
+    <a href="https://super-cleaner-bio-link.vercel.app/" class="back-button">← Back</a>
+    
     <!-- Header with centered logo -->
     <div class="header-container">
         <img src="white logo without bg.png" 
@@ -211,10 +235,10 @@
         <div class="gallery-item" onclick="toggleActive(this)">
             <img src="Untitled design (10).png" 
                  alt="Image 1">
-            <p>Image 1</p>
+            <p>GRAY</p>
             <div class="text-overlay">
-                <h3>Custom Title 1</h3>
-                <p>Description for Image 1</p>
+                <h3>سائل غسل المركبات</h3>
+                <p>25 KG</p>
             </div>
         </div>
         
@@ -222,10 +246,10 @@
         <div class="gallery-item" onclick="toggleActive(this)">
             <img src="Untitled design (8).png" 
                  alt="Image 2">
-            <p>Image 2</p>
+            <p>YELLOW</p>
             <div class="text-overlay">
-                <h3>Custom Title 2</h3>
-                <p>Description for Image 2</p>
+                <h3>ملمع الإطارات</h3>
+                <p>25 KG</p>
             </div>
         </div>
 
@@ -233,10 +257,10 @@
         <div class="gallery-item" onclick="toggleActive(this)">
             <img src="Super Cleaner Engine Cleaner 25KG.png" 
                  alt="Image 3">
-            <p>Image 3</p>
+            <p>RED</p>
             <div class="text-overlay">
-                <h3>Custom Title 3</h3>
-                <p>Description for Image 3</p>
+                <h3>منظف المحرك والمعدات الصناعية </h3>
+                <p>25 KG</p>
             </div>
         </div>
     </div>
